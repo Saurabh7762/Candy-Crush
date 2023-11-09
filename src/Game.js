@@ -142,6 +142,9 @@ function Game() {
      ...prevState,
      gamesLost: prevState.gamesLost + 1,
      gamesPlayed: prevState.gamesPlayed + 1,
+     moves: 20,
+     score: 0, // Reset score
+     grid: [],
    }));
 
    const playAgain = window.confirm("You lost! Do you want to play again?");
