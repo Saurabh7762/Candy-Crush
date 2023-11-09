@@ -109,8 +109,6 @@ function Game() {
   };
 
   const handleCandyFalling = () => {
-    // Implement the falling animation logic here
-    // You need to update the grid to fill empty spaces with new candies
     const newGrid = [...gameState.grid];
 
     for (let col = 0; col < NUM_COLS; col++) {
