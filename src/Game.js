@@ -3,9 +3,10 @@ import "./Game.css";
 
 const NUM_ROWS = 10;
 const NUM_COLS = 10;
-const WINNING_SCORE = 500;
 
 function Game() {
+  const [WINNING_SCORE, setWINNING_SCORE] = useState(100); // Initial WINNING_SCORE
+
   const [gameState, setGameState] = useState({
     gamesPlayed: 0,
     gamesWon: 0,
@@ -136,27 +137,49 @@ function Game() {
     }));
   };
 
+ const handleLoss = () => {
+   setGameState((prevState) => ({
+     ...prevState,
+     gamesLost: prevState.gamesLost + 1,
+     gamesPlayed: prevState.gamesPlayed + 1,
+   }));
 
-  const handleLoss = () => {
-    setGameState((prevState) => ({
-      ...prevState,
-      gamesLost: prevState.gamesLost + 1,
-      gamesPlayed: prevState.gamesPlayed + 1,
-    }));
-  };
+   const playAgain = window.confirm("You lost! Do you want to play again?");
+   if (playAgain) {
+     restartGame();
+   }
+ };
 
-  const handleWin = () => {
-    setGameState((prevState) => ({
-      ...prevState,
-      gamesWon: prevState.gamesWon + 1,
-      gamesPlayed: prevState.gamesPlayed + 1,
-    }));
+
+const handleWin = () => {
+  setGameState((prevState) => ({
+    ...prevState,
+    gamesWon: prevState.gamesWon + 1,
+    gamesPlayed: prevState.gamesPlayed + 1,
+    moves: 20, // Reset moves
+    score: 0, // Reset score
+    grid: [], // Clear the grid
+  }));
+
+  // Increase the WINNING_SCORE by 100
+  setWINNING_SCORE((prevScore) => prevScore + 100);
+
+  const playAgain = window.confirm("You won! Do you want to play again?");
+  if (playAgain) {
+    restartGame();
+  }
+};
+
+  const restartGame = () => {
+    // Restart the game by initializing a new grid
+    initializeGameGrid();
   };
 
   const getCandyColor = (candyType) => {
     const candyColors = ["orange", "blue", "green"]; // Define your colors
     return candyColors[candyType];
   };
+
 
   return (
     <div className="game">
