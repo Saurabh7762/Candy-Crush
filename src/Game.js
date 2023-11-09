@@ -187,10 +187,28 @@ const handleWin = () => {
   return (
     <div className="game">
       <div className="game-info">
-        <h2>Games Played: {gameState.gamesPlayed}</h2>
-        <h2>Games Won: {gameState.gamesWon}</h2>
-        <h2>Games Lost: {gameState.gamesLost}</h2>
-        <h2>Score: {gameState.score}</h2>
+        <div>
+          <h3>Games Played: {gameState.gamesPlayed}</h3>
+        </div>
+        <div className="green">
+          <h3>Games Won: {gameState.gamesWon}</h3>
+        </div>
+        <div className="red">
+          <h3>Games Lost: {gameState.gamesLost}</h3>
+        </div>
+        <div className="red">
+          <h3>
+            Turns Left: {gameState.moves} {/* Display remaining turns */}
+          </h3>
+        </div>
+        <div>
+          <h3>
+            Winning Score: {WINNING_SCORE} {/* Display remaining turns */}
+          </h3>
+        </div>
+        <div className="yourscore">
+          <h3>Your Score: {gameState.score}</h3>
+        </div>
       </div>
       <div className="game-grid">
         {gameState.grid.map((row, rowIndex) => (
