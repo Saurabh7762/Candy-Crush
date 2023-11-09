@@ -3,7 +3,7 @@ import "./Game.css";
 
 const NUM_ROWS = 10;
 const NUM_COLS = 10;
-const WINNING_SCORE = 10; 
+const WINNING_SCORE = 500;
 
 function Game() {
   const [gameState, setGameState] = useState({
@@ -88,19 +88,55 @@ function Game() {
           score: newScore,
           moves: movesLeft,
         }));
+
         if (newScore >= WINNING_SCORE) {
           handleWin();
         }
+
+        // After bursting candies, trigger falling animation
+        handleCandyFalling();
       } else {
         // Reset mistakenly burst candies
         resetMistakenCandies(connectedCandies);
       }
+
       // Check for loss condition
       if (movesLeft <= 0) {
         handleLoss();
       }
     }
   };
+
+  const handleCandyFalling = () => {
+    // Implement the falling animation logic here
+    // You need to update the grid to fill empty spaces with new candies
+    const newGrid = [...gameState.grid];
+
+    for (let col = 0; col < NUM_COLS; col++) {
+      const column = newGrid
+        .map((row) => row[col])
+        .filter((candy) => candy !== null);
+      const emptySpaces = NUM_ROWS - column.length;
+
+      // Fill empty spaces in the column with new candies
+      for (let i = 0; i < emptySpaces; i++) {
+        column.unshift(Math.floor(Math.random() * 3));
+      }
+
+      // Update the grid column with the new candies
+      for (let row = 0; row < NUM_ROWS; row++) {
+        newGrid[row][col] = column[row];
+      }
+    }
+
+    // Update the game state with the new grid
+    setGameState((prevState) => ({
+      ...prevState,
+      grid: newGrid,
+    }));
+  };
+
+
   const handleLoss = () => {
     setGameState((prevState) => ({
       ...prevState,
@@ -108,21 +144,14 @@ function Game() {
       gamesPlayed: prevState.gamesPlayed + 1,
     }));
   };
+
   const handleWin = () => {
     setGameState((prevState) => ({
       ...prevState,
       gamesWon: prevState.gamesWon + 1,
       gamesPlayed: prevState.gamesPlayed + 1,
     }));
-    // Implement logic for winning the game, e.g., showing a message or starting a new game.
   };
-
-
-
-
-
-
-
 
   const getCandyColor = (candyType) => {
     const candyColors = ["orange", "blue", "green"]; // Define your colors
